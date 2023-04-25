@@ -6,5 +6,12 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts"]
+  // aliases
+  "baseUrl": ".",
+  "paths": {
+    "@/*": ["src/*"],
+    "@config/*": ["config/*"],
+    "@util": ["util"]
+  },
+  "include": ["vite.config.ts", "typings/**/*", "config/**/*"]
 }
