@@ -36,6 +36,7 @@ export default defineConfig(({ mode }) => {
       alias: [
         { find: /^~/, replacement: path.resolve(__dirname, './') },
         { find: '@', replacement: path.resolve(__dirname, 'src') },
+        { find: '@pages', replacement: path.resolve(__dirname, 'src/pages') },
         { find: '@c', replacement: path.resolve(__dirname, 'config') },
       ],
     },
