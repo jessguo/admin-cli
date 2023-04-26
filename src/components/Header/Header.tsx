@@ -2,13 +2,13 @@ import { Avatar, Dropdown, Layout, Menu, Space } from 'antd';
 import React from 'react';
 
 import logo from '../../assets/logo.jpg';
-import useStore from '../../store';
+// import useStore from '../../store';
 import cls from './index.module.less';
 
 const { Header } = Layout;
 
 const MyHeader: React.FC = () => {
-  const user = useStore((state) => state.user);
+  // const user = useStore((state) => state.user);
 
   const handleChange = (e: { key: string }) => {
     if (e.key === '0') {
@@ -27,7 +27,7 @@ const MyHeader: React.FC = () => {
       <Dropdown overlay={menu}>
         <Space>
           <Avatar src={logo} />
-          {user?.username}
+          {/* {user?.username} */}
         </Space>
       </Dropdown>
     </Header>

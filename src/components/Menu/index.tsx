@@ -1,16 +1,14 @@
 import { Layout, Menu, Typography } from 'antd';
 import { createBrowserHistory } from 'history';
 import React, { useEffect, useState } from 'react';
-import { matchRoutes } from 'react-router-config';
 import { Link } from 'react-router-dom';
 
-import routes, { IRouteConfig } from '@/routes/config';
+import routes, { IRouteConfig } from '@/routes/routes';
 
 import cls from './index.module.less';
 const { Sider } = Layout;
 
-const FilterRoutes = (arr: IRouteConfig[]): IRouteConfig[] =>
-  arr.find((n) => n.path === '/sys')?.routes || [];
+const FilterRoutes = (arr: IRouteConfig[]): IRouteConfig[] => arr.find((n) => n.path === '/sys')?.routes || [];
 
 const Header: React.FC = () => {
   const [openKeys, setOpenKeys] = useState<string[]>([]);
@@ -21,12 +19,6 @@ const Header: React.FC = () => {
   // 路由监听
   useEffect(() => {
     const pathname = history.location.pathname;
-    const match = matchRoutes(sysRoutes, pathname);
-
-    if (match?.length) {
-      setOpenKeys(match.map((n) => n.route.path));
-      setSelectedKeys([match[0].route.path]);
-    }
   }, [history.location.pathname]);
 
   return (
