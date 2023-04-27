@@ -1,31 +1,45 @@
-import { Layout } from 'antd';
-// import { createBrowserHistory } from 'history';
-import { createBrowserHistory } from 'history';
 import React from 'react';
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Link, Outlet, useFetchers, useNavigation, useRevalidator } from 'react-router-dom';
+const { Header, Content, Footer } = Layout;
 
-import { IRouteConfig } from '@/routes/routes';
-
-import MyHeader from '../components/Header';
-import MyMenu from '../components/Menu';
-
-const { Content } = Layout;
-
-const BasicLayout: React.FC<{ route: IRouteConfig }> = ({ route }) => {
-  // const history = createBrowserHistory();
-
-  // if (!localStorage.getItem('vite-react-ts-antd-token')) {
-  //   history.push('/user/login');
-  // }
+export default function BasicLayout() {
+  let navigation = useNavigation();
+  let revalidator = useRevalidator();
+  let fetchers = useFetchers();
+  let fetcherInProgress = fetchers.some((f) => ['loading', 'submitting'].includes(f.state));
 
   return (
-    <Layout>
-      <MyMenu />
-      <Layout>
-        <MyHeader />
-        <Content style={{ height: 'calc(100vh - 60px)' }}></Content>
-      </Layout>
+    // <Layout>
+    //   <Content>
+    //     <Outlet />
+    //   </Content>
+    // </Layout>
+    <Layout className="layout">
+      <Header>
+        <div className="logo" />
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['2']}
+          items={new Array(15).fill(null).map((_, index) => {
+            const key = index + 1;
+            return {
+              key,
+              label: `nav ${key}`,
+            };
+          })}
+        />
+      </Header>
+      <Content style={{ padding: '0 50px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <Outlet />
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
     </Layout>
   );
-};
-
-export default BasicLayout;
+}
