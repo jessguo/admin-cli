@@ -21,12 +21,15 @@ const routes: RouteObject[] = [
             index: true,
             element: <Login />,
           },
+          {
+            path: 'login',
+            element: <Login />,
+          },
         ],
       },
       {
         path: '/home',
         Component: BasicLayout,
-
         children: [
           {
             index: true,
@@ -43,4 +46,4 @@ const routes: RouteObject[] = [
   },
 ];
 
-export default createBrowserRouter(routes);
+export default routes;
