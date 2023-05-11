@@ -1,3 +1,9 @@
+## 启动项目
+
+> yarn dev
+> test 环境
+> yarn dev:test
+
 ## 当前项目的文件目录结构和说明
 
 ```js
@@ -34,11 +40,3 @@
 ```
 
 ### 关键技术选型
-1. 技术框架 `react` 相关 `react-router-dom` `react-routet`
-
-2. vite 
-3. antd
-4. axios
-5. 国际话
-6. zustand
-7. 

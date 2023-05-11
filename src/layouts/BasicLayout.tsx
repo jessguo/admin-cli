@@ -82,7 +82,7 @@ export default function BasicLayout() {
           <Sider width={200} style={{ background: colorBgContainer }}>
             <Menu mode="inline" onClick={handleRouter} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} style={{ height: '100%', borderRight: 0 }} items={menus} />
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
+          <Layout style={{ padding: '0 24px 24px', minWidth: '900px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>

@@ -6,7 +6,7 @@ import BasicLayout from '@/layouts/BasicLayout';
 import UserLayout from '@/layouts/UserLayout';
 import Redirect from '@/pages/Redirect';
 import NoFond from '@/pages/NoFond';
-import DeviceList from '@/pages/Device/List';
+import DeviceList from '@/pages/Device/List/Index';
 // const Auth: React.FC = () => {
 //   return div;
 // };
@@ -16,7 +16,7 @@ const routes: RouteObject[] = [
     children: [
       {
         path: '/',
-        element: <Navigate to="/home" replace />,
+        element: <Navigate to="/device/list" replace />,
       },
       {
         path: '/login',

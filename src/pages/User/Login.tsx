@@ -25,7 +25,7 @@ const Index = () => {
         message: response.message,
         description: '登录成功',
       });
-      navigate('/home');
+      navigate('/device/list');
     }
   };
 

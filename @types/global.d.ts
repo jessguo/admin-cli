@@ -6,6 +6,11 @@ type Props = {
   children?: React.ReactNode;
 };
 
+interface SWRData {
+  url: string;
+  data: any;
+}
+
 interface ResProps {
   status: number;
   data: any;

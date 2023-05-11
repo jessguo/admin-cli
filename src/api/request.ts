@@ -1,50 +1,61 @@
 import { message } from 'antd';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-// import { BASE_URL } from '@c/constant';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders } from 'axios';
+import useUser from '@/store/index';
+export type { AxiosInstance, AxiosResponse, AxiosRequestHeaders };
 
-// baseURL  通用axios 用于账号相关接口请求
-// 这里获取不同环境的basurl
-const baseURL = import.meta.env.VITE_ACCOUNT_URL;
-const accountInstance = axios.create({
-  baseURL: baseURL,
-});
-
-// baseURL 业务axios 用于业务相关接口请求
-
-// // 请求拦截
-accountInstance.interceptors.request.use((request: any) => {
-  // 添加token、应用信息等
-  request.headers = {
-    ...request.headers,
-    'client-id': 'eb413a04-3b9e-41e6-8bbe-b8d64996dc35',
-    'app-id': 'ead250f5-c093-44cc-9e42-f8197eb1511a',
-    // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    // token: sessionStorage.getItem('x-viteApp-token') || '',
+// axios 工厂函数
+const creatInstaceRequest = (baseURL: string) => {
+  // 创建axios实例
+  const instance = axios.create({
+    baseURL,
+  });
+  // axios请求拦截
+  const requstInterceptors = (request: any) => {
+    // 获取token
+    const token = useUser.getState().token;
+    // 自定义头部
+    request.headers = {
+      ...request.headers,
+      'client-id': 'eb413a04-3b9e-41e6-8bbe-b8d64996dc35',
+      'app-id': 'ead250f5-c093-44cc-9e42-f8197eb1511a',
+      'Content-Type': 'application/json',
+      token: token || '',
+    };
+    return request;
   };
-  return request;
-});
 
-// // 对返回的结果做处理
-accountInstance.interceptors.response.use(
-  (response) => {
+  // axios返回拦截
+  const responestInterceptors = (response: AxiosResponse) => {
     const res = response.data;
-
     if (res.status !== 0) {
       message.error(res.message);
     }
     return {
       ...res,
+      // 自定义新增isSuccess
       isSuccess: res.status === 0,
     };
-  },
-  (err) => {
-    console.log('err', err);
-  },
-);
-
-const request = <T>(reqConfig: AxiosRequestConfig): Promise<T> => {
-  return accountInstance.request<T, T>(reqConfig);
+  };
+  // 全局统一拦截
+  instance.interceptors.request.use(requstInterceptors);
+  instance.interceptors.response.use(responestInterceptors);
+  // 封装请求
+  const request = <T>(reqConfig: AxiosRequestConfig): Promise<T> => {
+    return instance.request<T, T>(reqConfig);
+  };
+  return request;
 };
 
-export default request;
-export type { AxiosInstance, AxiosResponse };
+// 创建 account instance
+const accountURL = import.meta.env.VITE_ACCOUNT_URL;
+const accountRequest = creatInstaceRequest(accountURL);
+
+// 创建 device instance
+const deviceURL = import.meta.env.VITE_DEVICE_URL;
+const deviceRequest = creatInstaceRequest(deviceURL);
+
+// 创建 web-admin instance
+const adminURL = import.meta.env.VITE_ADMIN_URL;
+const adminRequest = creatInstaceRequest(adminURL);
+
+export { accountRequest, deviceRequest, adminRequest };
