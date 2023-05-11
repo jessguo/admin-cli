@@ -6,6 +6,10 @@ import BasicLayout from '@/layouts/BasicLayout';
 import UserLayout from '@/layouts/UserLayout';
 import Redirect from '@/pages/Redirect';
 import NoFond from '@/pages/NoFond';
+import DeviceList from '@/pages/Device/List';
+// const Auth: React.FC = () => {
+//   return div;
+// };
 const routes: RouteObject[] = [
   {
     path: '/',
@@ -15,15 +19,56 @@ const routes: RouteObject[] = [
         element: <Navigate to="/home" replace />,
       },
       {
-        path: '/user',
+        path: '/login',
+        Component: UserLayout,
         children: [
           {
             index: true,
             element: <Login />,
           },
+        ],
+      },
+      {
+        path: '/device',
+        Component: BasicLayout,
+        children: [
           {
-            path: 'login',
-            element: <Login />,
+            index: true,
+            element: <DeviceList />,
+          },
+          {
+            path: 'list',
+            element: <DeviceList />,
+          },
+          {
+            path: 'model-list',
+            element: <Home />,
+          },
+          {
+            path: 'firmware-list',
+            element: <Home />,
+          },
+        ],
+      },
+      {
+        path: '/collector',
+        Component: BasicLayout,
+        children: [
+          {
+            index: true,
+            element: <Home />,
+          },
+          {
+            path: 'list',
+            element: <Home />,
+          },
+          {
+            path: 'model-list',
+            element: <Home />,
+          },
+          {
+            path: 'firmware-list',
+            element: <Home />,
           },
         ],
       },

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Spin, ConfigProvider } from 'antd';
+import { Spin, ConfigProvider, theme } from 'antd';
 import { RouterProvider } from 'react-router-dom';
 
 // import Authority from '@/layouts/Authority';
@@ -11,7 +11,7 @@ const App = () => {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: '#F4801A',
+            // colorPrimary: '#ffc409',
           },
         }}>
         <RouterProvider router={router} />

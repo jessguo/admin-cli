@@ -24,10 +24,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@c/*": ["config/*"]
-    },
+    }
 
-    "types": ["@types/global"]
+    // "types": ["types/global"]
   },
   "include": ["src", "config", "@types/global.d.ts", "types/index.d.ts"]
-  // "references": [{ "path": "./tsconfig.node.json" }]
 }

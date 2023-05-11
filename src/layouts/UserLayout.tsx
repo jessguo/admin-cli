@@ -1,20 +1,16 @@
 import { Layout, Typography } from 'antd';
 import React from 'react';
-
-import type { IRouteConfig } from '@/routes/routes';
+import { Link, Outlet, useFetchers, useNavigation, useRevalidator } from 'react-router-dom';
 
 const { Content, Footer } = Layout;
 const { Text } = Typography;
 
-const UserLayout: React.FC<{ route: IRouteConfig }> = ({ route }) => {
+const UserLayout: React.FC = () => {
   return (
-    <Layout className="_bg">
-      <Content></Content>
-      <Footer>
-        <Text>
-          Vite2.0 + React + Antd <Text type="secondary">@JS-banana 2021</Text>
-        </Text>
-      </Footer>
+    <Layout style={{ background: '#f5f5f5' }}>
+      <Content>
+        <Outlet />
+      </Content>
     </Layout>
   );
 };

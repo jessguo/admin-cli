@@ -17,7 +17,6 @@
     ├── App.tsx                         // react顶层文件
     ├── main.ts                         // 项目入口文件
     ├── typing.d.ts                     // ts类型文件
-├── .editorconfig                       // IDE格式规范
 ├── .env.development                    // 开发环境变量
 ├── .env.production                     // 生产环境变量
 ├── .env.test                           // 测试环境变量
@@ -33,3 +32,13 @@
 └── yarn.lock                           // yarn.lock
 
 ```
+
+### 关键技术选型
+1. 技术框架 `react` 相关 `react-router-dom` `react-routet`
+
+2. vite 
+3. antd
+4. axios
+5. 国际话
+6. zustand
+7. 

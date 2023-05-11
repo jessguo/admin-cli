@@ -7,8 +7,6 @@ import { themeVariables } from './config/theme';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const VITE_ACCOUNT_URL = loadEnv(mode, process.cwd()).VITE_ACCOUNT_URL;
-  console.log('[nodeSTART] vite start mode:', mode);
-  console.log('[nodeSTART] baseurl', loadEnv(mode, process.cwd()), VITE_ACCOUNT_URL);
   return {
     plugins: [react()],
 
@@ -24,12 +22,12 @@ export default defineConfig(({ mode }) => {
     // server
     server: {
       port: PORT,
-      proxy: {
-        [VITE_ACCOUNT_URL]: {
-          target: VITE_ACCOUNT_URL,
-          changeOrigin: true,
-        },
-      },
+      // proxy: {
+      //   [VITE_ACCOUNT_URL]: {
+      //     target: VITE_ACCOUNT_URL,
+      //     changeOrigin: true,
+      //   },
+      // },
     },
     // alias
     resolve: {

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { Link, Outlet, useFetchers, useNavigation, useRevalidator } from 'react-router-dom';
-// import  from '@/components/Header';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
+import { Breadcrumb, Layout, Menu, theme, Row, Col, Dropdown, Space, Avatar } from 'antd';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { LaptopOutlined, NotificationOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-const { Content, Footer, Sider, Header } = Layout;
+import useUser from '@/store/index';
+import Authority from '@/layouts/Authority';
+import Header from '@/components/Header';
 
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
+import styles from './index.module.less';
+
+const { Content, Footer, Sider } = Layout;
 
 const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
   const key = String(index + 1);
@@ -29,40 +29,77 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
   };
 });
 
+const menus: MenuProps['items'] = [
+  {
+    key: `/device/list`,
+    label: '设备列表',
+    icon: React.createElement(UserOutlined),
+  },
+  {
+    key: `/device/model-list`,
+    label: '设备型号',
+    icon: React.createElement(UserOutlined),
+  },
+  {
+    key: `/device/firmware-list`,
+    label: '固件管理',
+    icon: React.createElement(UserOutlined),
+  },
+];
+
 export default function BasicLayout() {
-  let navigation = useNavigation();
-  let revalidator = useRevalidator();
+  const logout = useUser((state) => state.logout);
   const [collapsed, setCollapsed] = useState(false);
+
+  const navigate = useNavigate();
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+
+  const handleRouter: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
+    navigate(e.key);
+  };
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  console.log(styles);
+
+  const handeLogout: MenuProps['onClick'] = ({ key }) => {
+    // 重定登陆页面
+    if (key === 'logout') {
+      logout();
+      // 页面重定向
+      navigate('/login', { replace: true });
+    }
+  };
+
   return (
-    <Layout>
-      <Header className="header">
-        <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} />
-      </Header>
+    <Authority>
       <Layout>
-        <Sider width={200} style={{ background: colorBgContainer }}>
-          <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} style={{ height: '100%', borderRight: 0 }} items={items2} />
-        </Sider>
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-            }}>
-            Content
-          </Content>
+        <Header onLogout={handeLogout} />
+        <Layout hasSider>
+          <Sider width={200} style={{ background: colorBgContainer }}>
+            <Menu mode="inline" onClick={handleRouter} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} style={{ height: '100%', borderRight: 0 }} items={menus} />
+          </Sider>
+          <Layout style={{ padding: '0 24px 24px' }}>
+            <Breadcrumb style={{ margin: '16px 0' }}>
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>List</Breadcrumb.Item>
+              <Breadcrumb.Item>App</Breadcrumb.Item>
+            </Breadcrumb>
+            <Content
+              style={{
+                padding: 24,
+                margin: 0,
+                minHeight: 280,
+                background: colorBgContainer,
+              }}>
+              <Outlet />
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </Authority>
   );
 }

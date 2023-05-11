@@ -1,21 +1,15 @@
-import React from 'react';
-import { createBrowserHistory } from 'history';
+import React, { Fragment } from 'react';
+import { Navigate } from 'react-router-dom';
+import useUser from '@/store/index';
 
-// import useStore from '../store';
-
-const Authority: React.FC<Props> = ({ children }) => {
-  const history = createBrowserHistory();
-  // const user = useStore((state) => state.user);
-  // console.log('Authority', user);
-
-  if (!localStorage.getItem('vite-react-ts-antd-token')) {
-    history.push('/user/login');
+const Auth: React.FC<Props> = ({ children }) => {
+  const token = useUser((state) => state.token);
+  const isLogin = Boolean(token);
+  // 没有登陆 做拦截
+  if (!isLogin) {
+    return <Navigate to="/login" state={{ from: location }} />;
   }
-  // if (!user?.token) {
-  //   history.push('/user/login');
-  // }
-
-  return <>{children}</>;
+  return <Fragment>{children}</Fragment>;
 };
 
-export default Authority;
+export default Auth;
