@@ -10,13 +10,15 @@ const Index: React.FC = () => {
   const [path, setPath] = useState('device');
 
   const handleRouter: MenuProps['onClick'] = (e) => {
-    navigate(e.path);
+    navigate(e.key);
   };
 
   useEffect(() => {
     const pathArr = getPathNameToArrary(pathname);
-    const menu = pathArr[0];
-    setPath(menu);
+    if (pathArr[0]) {
+      const menu = `/${pathArr[0]}`;
+      setPath(menu);
+    }
   }, [pathname]);
 
   return <Menu theme="light" mode="horizontal" selectedKeys={[path]} items={layoutMenus} onClick={handleRouter} />;

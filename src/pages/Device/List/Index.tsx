@@ -16,23 +16,42 @@ const paylod: any = {
 
 const Index = () => {
   const [filterData, setFilterData] = useState<Filters>(filters);
-  const [pagination, setPagination] = useState(initPagination);
+  const [pagination, setPagination] = useState({
+    ...initPagination,
+    total: 100,
+  });
 
   const query = {
     ...pagination,
-    filterData,
+    filters: filterData,
   };
-
-  const { data, isLoading } = useSWR(['device/list', query], fetcherList);
+  const fetcherList = (params: [string, Paylod]): Promise<ResProps> => {
+    const [, data] = params;
+    return Api.getDeviceList(data);
+  };
+  const { data, isLoading, mutate } = useSWR(['/api/device/list', query], fetcherList);
+  console.log('data: ', isLoading, data);
 
   const handleFilterChange = (values: Filters) => {
+    mutate();
     setFilterData(values);
+    // mutate({ data: query });
   };
-
+  const handleTableChange = (p: TablePaginationConfig) => {
+    // console.log('pagination: ', pagination);
+    setPagination(p);
+  };
   return (
     <div>
       <Header onFinish={handleFilterChange} />
-      <Table loading={isLoading} dataSource={data?.data} columns={columns} pagination={pagination} />
+      <Table
+        scroll={{ x: 1200 }}
+        loading={isLoading}
+        onChange={handleTableChange}
+        dataSource={data?.data.records}
+        columns={columns}
+        pagination={{ ...pagination, total: data?.data?.total }}
+      />
     </div>
   );
 };

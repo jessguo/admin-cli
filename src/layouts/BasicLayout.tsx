@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Layout, Menu, theme, Row, Col, Dropdown, Space, Avatar } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { LaptopOutlined, NotificationOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import _ from 'lodash';
 import type { MenuProps } from 'antd';
 import useUser from '@/store/index';
 import Authority from '@/layouts/Authority';
@@ -10,45 +10,12 @@ import BusinessMenus from '@/components/Menu/BusinessMenus';
 import styles from './index.module.less';
 
 const { Content, Footer, Sider } = Layout;
-
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-  const key = String(index + 1);
-
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
-
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
-  };
-});
-
-const menus: MenuProps['items'] = [
-  {
-    key: `/device/list`,
-    label: '设备列表',
-    icon: React.createElement(UserOutlined),
-  },
-  {
-    key: `/device/model-list`,
-    label: '设备型号',
-    icon: React.createElement(UserOutlined),
-  },
-  {
-    key: `/device/firmware-list`,
-    label: '固件管理',
-    icon: React.createElement(UserOutlined),
-  },
-];
-
 export default function BasicLayout() {
+  const pathname = useLocation().pathname;
+
   const logout = useUser((state) => state.logout);
+  const [breadcrumbs, setBreadcrumbs] = useState<string[]>(['Home']);
+
   const [collapsed, setCollapsed] = useState(false);
 
   const navigate = useNavigate();
@@ -70,6 +37,11 @@ export default function BasicLayout() {
     }
   };
 
+  useEffect(() => {
+    const pathArr = pathname.split('/').map((v) => (v === '' ? 'home' : v));
+    const breads = pathArr.map((t) => _.capitalize(t));
+    setBreadcrumbs(breads);
+  }, [pathname]);
   return (
     <Authority>
       <Layout>
@@ -80,9 +52,9 @@ export default function BasicLayout() {
           </Sider>
           <Layout style={{ padding: '0 24px 24px', minWidth: '900px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
+              {breadcrumbs.map((t) => (
+                <Breadcrumb.Item key={t}>{t}</Breadcrumb.Item>
+              ))}
             </Breadcrumb>
             <Content
               style={{
@@ -90,6 +62,7 @@ export default function BasicLayout() {
                 margin: 0,
                 minHeight: 280,
                 background: colorBgContainer,
+                overflow: 'auto',
               }}>
               <Outlet />
             </Content>

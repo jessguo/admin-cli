@@ -17,7 +17,7 @@ const Index: React.FC = () => {
   useEffect(() => {
     const pathArr = getPathNameToArrary(pathname);
     const layout = pathArr[0];
-    const layoutName = layout.replace('/', '');
+    const layoutName = layout;
     if (layoutName) {
       const businessMenus = getBusinessMenus(layoutName);
       const menuPath = pathArr[1];

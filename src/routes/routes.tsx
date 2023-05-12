@@ -70,18 +70,21 @@ const ConfigRoutes: IRouter[] = [
         children: [
           {
             index: true,
-            element: <Home />,
+            element: <Navigate to="/collector/list" replace />,
           },
           {
             path: 'list',
+            label: '设备列表',
             element: <Home />,
           },
           {
             path: 'model-list',
+            label: '设备型号',
             element: <Home />,
           },
           {
             path: 'firmware-list',
+            label: '固件管理',
             element: <Home />,
           },
         ],

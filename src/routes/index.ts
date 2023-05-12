@@ -11,7 +11,7 @@ export const getPathNameToArrary = (pathname: string) => {
   const pathArr = pathname
     .split('/')
     .filter((item) => item)
-    .map((v) => `/${v}`);
+    .map((v) => `${v}`);
   return pathArr;
 };
 

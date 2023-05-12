@@ -27,9 +27,9 @@ const App = () => {
   return (
     <Suspense fallback={<Spin size="large" />}>
       <ConfigProvider theme={themeCofig}>
-        <SWRConfig value={swrConfig}>
-          <RouterProvider router={router} />
-        </SWRConfig>
+        {/* <SWRConfig value={swrConfig}> */}
+        <RouterProvider router={router} />
+        {/* </SWRConfig> */}
       </ConfigProvider>
     </Suspense>
   );

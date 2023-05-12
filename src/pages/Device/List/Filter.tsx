@@ -24,6 +24,9 @@ const Index: React.FC<FilterProps> = ({ onFinish }) => {
     onFinish(values);
   };
 
+  const handleReset = () => {
+    form.resetFields();
+  };
   return (
     <Form form={form} onFinish={handleSubmit}>
       <Row gutter={16}>
@@ -33,7 +36,7 @@ const Index: React.FC<FilterProps> = ({ onFinish }) => {
           </Form.Item>
         </Col>
         <Col span={4}>
-          <Form.Item name="online">
+          <Form.Item name="status">
             <Select allowClear options={selectOptions} />
           </Form.Item>
         </Col>
@@ -41,7 +44,7 @@ const Index: React.FC<FilterProps> = ({ onFinish }) => {
           <Form.Item shouldUpdate>
             {() => (
               <Space>
-                <Button>重置</Button>
+                <Button onClick={handleReset}>重置</Button>
                 <Button type="primary" htmlType="submit">
                   查找
                 </Button>
