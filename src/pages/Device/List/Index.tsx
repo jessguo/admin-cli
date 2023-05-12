@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TablePaginationConfig } from 'antd';
+import { Table, TablePaginationConfig, Button } from 'antd';
 import useSWR from 'swr';
 import Api, { Paylod, Filters } from '@/api/devcie';
 import Header from './Filter';
@@ -25,20 +25,14 @@ const Index = () => {
     ...pagination,
     filters: filterData,
   };
-  const fetcherList = (params: [string, Paylod]): Promise<ResProps> => {
-    const [, data] = params;
-    return Api.getDeviceList(data);
-  };
-  const { data, isLoading, mutate } = useSWR(['/api/device/list', query], fetcherList);
+
+  const { data, isLoading } = useSWR(['/api/device/list', query], fetcherList);
   console.log('data: ', isLoading, data);
 
   const handleFilterChange = (values: Filters) => {
-    mutate();
     setFilterData(values);
-    // mutate({ data: query });
   };
   const handleTableChange = (p: TablePaginationConfig) => {
-    // console.log('pagination: ', pagination);
     setPagination(p);
   };
   return (
@@ -52,6 +46,7 @@ const Index = () => {
         columns={columns}
         pagination={{ ...pagination, total: data?.data?.total }}
       />
+      <Button onClick={() => set(true)}>12121</Button>
     </div>
   );
 };

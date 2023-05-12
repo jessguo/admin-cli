@@ -7,8 +7,9 @@ import type { ColumnsType } from 'antd/es/table';
 
 const formatStr = 'YYYY-MM-DD HH:mm';
 
-export const fetcherList = (q) => {
-  return Api.getDeviceList(arg);
+export const fetcherList = (params: [string, Paylod]): Promise<ResProps> => {
+  const [, data] = params;
+  return Api.getDeviceList(data);
 };
 
 interface Recod {
