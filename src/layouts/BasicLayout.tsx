@@ -6,7 +6,7 @@ import type { MenuProps } from 'antd';
 import useUser from '@/store/index';
 import Authority from '@/layouts/Authority';
 import Header from '@/components/Header';
-
+import BusinessMenus from '@/components/Menu/BusinessMenus';
 import styles from './index.module.less';
 
 const { Content, Footer, Sider } = Layout;
@@ -56,10 +56,6 @@ export default function BasicLayout() {
     setCollapsed(!collapsed);
   };
 
-  const handleRouter: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
-    navigate(e.key);
-  };
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -80,7 +76,7 @@ export default function BasicLayout() {
         <Header onLogout={handeLogout} />
         <Layout hasSider>
           <Sider width={200} style={{ background: colorBgContainer }}>
-            <Menu mode="inline" onClick={handleRouter} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} style={{ height: '100%', borderRight: 0 }} items={menus} />
+            <BusinessMenus />
           </Sider>
           <Layout style={{ padding: '0 24px 24px', minWidth: '900px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>

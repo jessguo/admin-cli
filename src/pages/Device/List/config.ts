@@ -5,7 +5,7 @@ export const initPagination: TablePaginationConfig = { current: 1, size: 10 };
 
 export const fetcherList = (params: [string, Paylod]): Promise<ResProps> => {
   const [, data] = params;
-  console.log('params', params);
+  console.log('data: ', data);
   return Api.getDeviceList(data);
 };
 

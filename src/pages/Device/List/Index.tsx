@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Form, Input, Button, Row, Col, Select, Skeleton, Table, TablePaginationConfig } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { Table, TablePaginationConfig } from 'antd';
 import useSWR from 'swr';
 import Api, { Paylod, Filters } from '@/api/devcie';
 import Header from './Filter';
-import type { ColumnsType } from 'antd/es/table';
 import { columns, initPagination, fetcherList } from './config';
 
 const filters: Filters = {
@@ -25,7 +23,6 @@ const Index = () => {
     filterData,
   };
 
-  console.log('query', query);
   const { data, isLoading } = useSWR(['device/list', query], fetcherList);
 
   const handleFilterChange = (values: Filters) => {
