@@ -8,12 +8,12 @@ enum Api {
 
 // Login user接口
 export interface Filters {
-  sn: number | null;
-  status: OnlineStatus | null;
+  sn: number | null | string;
+  status: OnlineStatus | null | string;
 }
 export interface Paylod {
   current: number;
-  size: number;
+  pageSize?: number;
   filters: Filters;
 }
 

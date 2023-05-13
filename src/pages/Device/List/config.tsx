@@ -1,16 +1,11 @@
 import React from 'react';
-import { TablePaginationConfig, Space, Divider } from 'antd';
+import { TablePaginationConfig, Space, Tag } from 'antd';
 import Api, { Paylod, Filters } from '@/api/devcie';
 import dayjs from 'dayjs';
 export const initPagination: TablePaginationConfig = { current: 1, pageSize: 10, total: 0, showSizeChanger: false };
 import type { ColumnsType } from 'antd/es/table';
 
 const formatStr = 'YYYY-MM-DD HH:mm';
-
-export const fetcherList = (params: [string, Paylod]): Promise<ResProps> => {
-  const [, data] = params;
-  return Api.getDeviceList(data);
-};
 
 interface Recod {
   model: any;
@@ -54,9 +49,9 @@ export const columns: ColumnsType<Recod> = [
     align: 'center',
     render: (_: string, { collector }) => {
       const status = collector ? collector['status'] : '';
-      if (status === 1) return '在线';
-      if (status === 2) return '在线';
-      return '--';
+      if (status === 1) return <Tag color="success">在线</Tag>;
+      if (status === 2) return <Tag color="success">离线</Tag>;
+      return <Tag>--</Tag>;
     },
   },
   {
@@ -88,16 +83,16 @@ export const columns: ColumnsType<Recod> = [
     key: 'remark',
     width: 120,
     align: 'center',
-    render: (text, record) => <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>{text}</div>,
+    render: (text) => <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>{text}</div>,
   },
   {
     title: '操作',
     dataIndex: 'Action',
     key: 'Action',
     width: 120,
-    render: (_, record) => (
+    render: (_) => (
       <Space>
-        <a>Delete</a>
+        <a>详情</a>
       </Space>
     ),
   },
