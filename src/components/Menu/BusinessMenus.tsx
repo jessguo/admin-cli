@@ -19,7 +19,7 @@ const Index: React.FC = () => {
     const layout = pathArr[0];
     const layoutName = layout;
     if (layoutName) {
-      const businessMenus = getBusinessMenus(layoutName);
+      const businessMenus = getBusinessMenus(layoutName)?.filter((v) => v.icon);
       const menuPath = pathArr[1];
       setBusinessMenus(businessMenus as any);
       setPath(menuPath);

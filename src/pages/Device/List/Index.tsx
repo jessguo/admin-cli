@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TablePaginationConfig, Button } from 'antd';
+import { Table, TablePaginationConfig, Space } from 'antd';
 import useSWRMutation from 'swr/mutation';
-import Api, { Paylod, Filters } from '@/api/devcie';
+import { Paylod, Filters } from '@/api/devcie';
 import Header from './Filter';
-import { columns, initPagination } from './config';
-
-const filters: Filters = {
-  sn: null,
-  status: null,
-};
-interface SendRequestArgs {
-  arg: Paylod;
-}
+import { columns, initPagination, filters, fetcherList } from './config';
+import Info from './Info';
+import type { ColumnsType } from 'antd/es/table';
 
 const Index = () => {
   const [filterData, setFilterData] = useState<Filters>(filters); // 过滤条件
@@ -21,22 +15,9 @@ const Index = () => {
     total: 100,
   });
 
-  // 请求参数
-  const query: Paylod = {
-    current: pagination.current!,
-    filters: filterData,
-  };
+  const [id, setID] = useState(null);
 
-  // fetcher 函数
-  const fetcher = async (url: string, { arg }: SendRequestArgs): Promise<ResProps> => {
-    return Api.getDeviceList({
-      ...arg,
-      pageSize: 10,
-    });
-  };
-
-  const { trigger, isMutating, data } = useSWRMutation('/device/list', fetcher);
-  console.log('data: ', isMutating, data);
+  const { trigger, isMutating, data } = useSWRMutation('/device/list', fetcherList);
 
   // 条件查询
   const handleFilterChange = (values: Filters) => {
@@ -59,22 +40,39 @@ const Index = () => {
     trigger(palylod);
   };
 
+  const Actions: ColumnsType<any> = [
+    {
+      title: '操作',
+      key: 'id',
+      width: 120,
+      align: 'center',
+      render: (_: string, record: any) => {
+        return (
+          <Space>
+            <a onClick={() => setID(record.id)}>详情</a>
+          </Space>
+        );
+      },
+    },
+  ];
+
   // 页面组件init
   useEffect(() => {
+    // 请求参数
+    const query: Paylod = {
+      current: pagination.current!,
+      filters: filterData,
+    };
     trigger(query);
   }, []);
-  return (
-    <div>
+
+  const ListView = (
+    <>
       <Header onFinish={handleFilterChange} />
-      <Table
-        scroll={{ x: 1200 }}
-        loading={isMutating}
-        onChange={handleTableChange}
-        dataSource={data?.data.records}
-        columns={columns}
-        pagination={{ ...pagination, total: data?.data?.total }}
-      />
-    </div>
+      <Table rowKey={'id'} scroll={{ x: 1200 }} loading={isMutating} onChange={handleTableChange} dataSource={data?.data.records} columns={[...columns, ...Actions]} pagination={{ ...pagination, total: data?.data?.total }} />
+    </>
   );
+
+  return <div>{!id ? ListView : <Info onBack={() => setID(null)} id={id} />}</div>;
 };
 export default Index;

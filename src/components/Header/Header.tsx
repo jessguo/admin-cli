@@ -34,10 +34,10 @@ const MyHeader: React.FC<HeadProps> = ({ onLogout }) => {
         <Col>
           {isShow ? (
             <Badge.Ribbon text={envName} color="pink">
-              <Avatar size={60} src={logo} />
+              <Avatar size={50} src={logo} />
             </Badge.Ribbon>
           ) : (
-            <Avatar size={60} src={logo} />
+            <Avatar size={50} src={logo} />
           )}
         </Col>
         <Col>

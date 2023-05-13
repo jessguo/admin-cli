@@ -4,22 +4,26 @@ import { OnlineStatus } from '@/constants/enums';
 
 enum Api {
   DEVICE_LIST = '/device/list',
+  DEVICE_INFO = '/device/info',
 }
 
 // Login user接口
-
 export interface Filters {
-  sn: number | null;
-  status: OnlineStatus | null;
+  sn: number | null | string;
+  status: OnlineStatus | null | string;
 }
-export interface Paylod {
+export interface ListPaylod {
   current: number;
-  size: number;
+  pageSize?: number;
   filters: Filters;
 }
-
-export const getDeviceList = (data: Paylod): Promise<ResProps> => adminRequest({ url: Api.DEVICE_LIST, method: 'post', data });
+export interface InfoPalod {
+  id: string;
+}
+export const getDeviceList = (data: ListPaylod): Promise<ResProps> => adminRequest({ url: Api.DEVICE_LIST, method: 'post', data });
+export const getDeviceInfo = (data: InfoPalod): Promise<ResProps> => adminRequest({ url: Api.DEVICE_INFO, method: 'post', data });
 
 export default {
   getDeviceList,
+  getDeviceInfo,
 };

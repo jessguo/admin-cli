@@ -14,7 +14,7 @@ export default function BasicLayout() {
   const pathname = useLocation().pathname;
 
   const logout = useUser((state) => state.logout);
-  const [breadcrumbs, setBreadcrumbs] = useState<string[]>(['Home']);
+  const [breadcrumbs, setBreadcrumbs] = useState<any[]>([{ title: 'Home' }]);
 
   const [collapsed, setCollapsed] = useState(false);
 
@@ -39,7 +39,9 @@ export default function BasicLayout() {
 
   useEffect(() => {
     const pathArr = pathname.split('/').map((v) => (v === '' ? 'home' : v));
-    const breads = pathArr.map((t) => _.capitalize(t));
+    const breads = pathArr.map((t) => ({
+      title: _.capitalize(t),
+    }));
     setBreadcrumbs(breads);
   }, [pathname]);
   return (
@@ -51,11 +53,12 @@ export default function BasicLayout() {
             <BusinessMenus />
           </Sider>
           <Layout style={{ padding: '0 24px 24px', minWidth: '900px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+            {/* <Breadcrumb style={{ margin: '16px 0' }}>
               {breadcrumbs.map((t) => (
                 <Breadcrumb.Item key={t}>{t}</Breadcrumb.Item>
               ))}
-            </Breadcrumb>
+            </Breadcrumb> */}
+            <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumbs} />
             <Content
               style={{
                 padding: 24,
